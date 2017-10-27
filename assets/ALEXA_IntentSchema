@@ -1,10 +1,45 @@
 {
   "intents": [
     {
+      "name": "AMAZON.CancelIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.HelpIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.StopIntent",
+      "samples": []
+    },
+    {
+      "name": "NoIntent",
+      "samples": [
+        "No"
+      ],
+      "slots": []
+    },
+    {
       "name": "PokedexIntent",
       "samples": [
-        "say hello",
-        "say hi"
+        "what is the pokemon at {number}",
+        "{number}",
+        "give me the pokedex entry for {number}",
+        "what is the Pokemon at number {number}",
+        "give me some info on {number}"
+      ],
+      "slots": [
+        {
+          "name": "number",
+          "type": "AMAZON.NUMBER",
+          "samples": []
+        }
+      ]
+    },
+    {
+      "name": "YesIntent",
+      "samples": [
+        "yes"
       ],
       "slots": []
     }
