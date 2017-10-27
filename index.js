@@ -24,12 +24,15 @@ webhook.post('/webhook', function (req, res) {
 // App Logic
 // =================================================================================
 
+const repromptMessage = 'Ask me which number of pokemon you want to know about';
+const errorMessage = 'There was an error with your request, please try again';
+const goodbyeMessage = '. Thank you for using my pokedex! Remember to catch them all!';
+
 const handlers = {
 
     'LAUNCH': function () {
-        var reprompt = 'Ask me which number of pokemon you want to know about';
-        var welcome = 'Welcome to my pokedex. ' + reprompt;
-        app.ask(welcome, reprompt);
+        var welcome = 'Welcome to my pokedex. ' + repromptMessage;
+        app.ask(welcome, repromptMessage);
     },
 
     'PokedexIntent': function (number) {
@@ -44,7 +47,7 @@ const handlers = {
                     if (number == 25) {
                         var speech = app.speechBuilder()
                             .addText('The pokemon at ' + number + ' is ')
-                            .addAudio('https://www.jovo.tech/audio/HdUF73xQ-pikachu.mp3', 'Pikachu')
+                            .addAudio('https://s3.us-east-2.amazonaws.com/diego-bst-generalbucket/pikachu.mp3', 'Pikachu')
                             .addText(reprompt);
 
                         app.followUpState('DescriptionState').ask(speech, reprompt);
@@ -58,7 +61,12 @@ const handlers = {
             })
             .catch(function (error) {
                 console.log(error);
-                app.tell('There was an error, please try again');
+                if (error.statusCode && error.statusCode == 404) {
+                    app.ask("I couldn't find the pokemon you asked about, please try again", repromptMessage);
+                }
+                else {
+                    app.ask(errorMessage, repromptMessage);
+                }
             });
     },
 
@@ -69,33 +77,37 @@ const handlers = {
             var number = app.getSessionAttribute('pokemonNo');
             P.getPokemonSpeciesByName(number) // with Promise
                 .then(function (response) {
-                    var goodbye = ' Thank you for using my pokedex! Remember to catch them all!';
                     var dexEntry = response.flavor_text_entries.filter(function (entry) {
                         return (entry.language.name === 'en');
                     });
-                    var description = dexEntry[0].flavor_text;
+                    var description = dexEntry[getRandomInt(0, dexEntry.length - 1)].flavor_text;
                     var img = PokeImages.getSprite(response.name);
-                    app.showImageCard(response.name, description, img).tell(response.name + ': ' + description + goodbye);
+                    app.showImageCard(response.name, description, img).tell(response.name + ': ' + description + goodbyeMessage);
                 })
                 .catch(function (error) {
                     console.log(error);
-                    app.tell('There was an error, please try again');
+                    app.tell(errorMessage);
                 });
         },
 
         'NoIntent': function () {
-            app.tell('Thank you for using my pokedex! Remember to catch them all!');
+            app.tell(goodbyeMessage);
         },
 
     },
 
     'YesIntent': function () {
-        var reprompt = 'Yes what?';
-        app.ask(reprompt, reprompt);
+        app.ask(repromptMessage, repromptMessage);
     },
 
     'NoIntent': function () {
-        app.tell('Thank you for using my pokedex! Remember to catch them all!');
+        app.tell(goodbyeMessage);
     },
 
 };
+
+/* Returns a random integer between min (inclusive) and max (inclusive)
+ * Using Math.round() will give you a non-uniform distribution!*/
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
