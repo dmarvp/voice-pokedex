@@ -9,15 +9,22 @@ const webhook = require('jovo-framework').Webhook;
 const Pokedex = require('pokedex-promise-v2');
 const PokeImages = require('pokemon-images')
 
-// Listen for post requests
-webhook.listen(3000, function () {
+// Listen for post requests (Web hook)
+/* webhook.listen(3000, function () {
     console.log('Local development server listening on port 3000.');
 });
 
 webhook.post('/webhook', function (req, res) {
     app.handleRequest(req, res, handlers);
     app.execute();
-});
+}); */
+
+// Listen for post requests (Lambda)
+exports.handler = function(event, context, callback) {
+    app.handleRequest(event, callback, handlers);
+    app.execute();
+    context.callbackWaitsForEmptyEventLoop = false;
+};
 
 
 // =================================================================================
@@ -26,7 +33,7 @@ webhook.post('/webhook', function (req, res) {
 
 const repromptMessage = 'Ask me which number of pokemon you want to know about';
 const errorMessage = 'There was an error with your request, please try again';
-const goodbyeMessage = '. Thank you for using my pokedex! Remember to catch them all!';
+const goodbyeMessage = 'Thank you for using my pokedex! Remember to catch them all!';
 
 const handlers = {
 
@@ -82,7 +89,7 @@ const handlers = {
                     });
                     var description = dexEntry[getRandomInt(0, dexEntry.length - 1)].flavor_text;
                     var img = PokeImages.getSprite(response.name);
-                    app.showImageCard(response.name, description, img).tell(response.name + ': ' + description + goodbyeMessage);
+                    app.showImageCard(response.name, description, img).tell(response.name + ': ' + description + '. ' + goodbyeMessage);
                 })
                 .catch(function (error) {
                     console.log(error);
