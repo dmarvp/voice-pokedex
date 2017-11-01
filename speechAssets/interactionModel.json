@@ -15,7 +15,15 @@
     {
       "name": "NoIntent",
       "samples": [
-        "No"
+        "No",
+        "nope",
+        "nah",
+        "I don't think so",
+        "not really",
+        "later",
+        "thanks but no",
+        "I don't want that",
+        "don't do it"
       ],
       "slots": []
     },
@@ -39,7 +47,16 @@
     {
       "name": "YesIntent",
       "samples": [
-        "yes"
+        "yes",
+        "sure",
+        "why not",
+        "of course",
+        "alright",
+        "ok",
+        "do it",
+        "okay",
+        "sounds good",
+        "that's correct"
       ],
       "slots": []
     }

@@ -7,7 +7,6 @@
 const app = require('jovo-framework').Jovo;
 const webhook = require('jovo-framework').Webhook;
 const Pokedex = require('pokedex-promise-v2');
-const PokeImages = require('pokemon-images')
 
 // Listen for post requests (Web hook)
 /* webhook.listen(3000, function () {
@@ -20,7 +19,7 @@ webhook.post('/webhook', function (req, res) {
 }); */
 
 // Listen for post requests (Lambda)
-exports.handler = function(event, context, callback) {
+exports.handler = function (event, context, callback) {
     app.handleRequest(event, callback, handlers);
     app.execute();
     context.callbackWaitsForEmptyEventLoop = false;
@@ -34,6 +33,7 @@ exports.handler = function(event, context, callback) {
 const repromptMessage = 'Ask me which number of pokemon you want to know about';
 const errorMessage = 'There was an error with your request, please try again';
 const goodbyeMessage = 'Thank you for using my pokedex! Remember to catch them all!';
+const pikachuAudio = 'https://s3.us-east-2.amazonaws.com/diego-bst-generalbucket/pikachu.mp3';
 
 const handlers = {
 
@@ -49,19 +49,21 @@ const handlers = {
                 try {
                     //Save the pokemon number to a session variable
                     app.setSessionAttribute('pokemonNo', number);
+                    app.setSessionAttribute('pokemonImg', response.sprites.front_default);
+                    var description = 'The pokemon at ' + number + ' is ' + response.name + '.';
                     var reprompt = 'Do you want to hear ' + response.name + "'s description?";
 
+                    var speech = "";
                     if (number == 25) {
-                        var speech = app.speechBuilder()
+                        speech = app.speechBuilder()
                             .addText('The pokemon at ' + number + ' is ')
-                            .addAudio('https://s3.us-east-2.amazonaws.com/diego-bst-generalbucket/pikachu.mp3', 'Pikachu')
+                            .addAudio(pikachuAudio, 'Pikachu')
                             .addText(reprompt);
-
-                        app.followUpState('DescriptionState').ask(speech, reprompt);
                     }
                     else {
-                        app.followUpState('DescriptionState').ask('The pokemon at ' + number + ' is ' + response.name + '. ' + reprompt, reprompt);
+                        speech = description + reprompt;
                     }
+                    app.followUpState('DescriptionState').showImageCard(response.name, description, response.sprites.front_default).ask(speech, reprompt);
                 } catch (error) {
                     console.log(error);
                 }
@@ -82,13 +84,14 @@ const handlers = {
         'YesIntent': function () {
             var P = new Pokedex();
             var number = app.getSessionAttribute('pokemonNo');
+            var img = app.getSessionAttribute('pokemonImg');
+
             P.getPokemonSpeciesByName(number) // with Promise
                 .then(function (response) {
                     var dexEntry = response.flavor_text_entries.filter(function (entry) {
                         return (entry.language.name === 'en');
                     });
                     var description = dexEntry[getRandomInt(0, dexEntry.length - 1)].flavor_text;
-                    var img = PokeImages.getSprite(response.name);
                     app.showImageCard(response.name, description, img).tell(response.name + ': ' + description + '. ' + goodbyeMessage);
                 })
                 .catch(function (error) {

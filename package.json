@@ -5,8 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "jovo-framework": "<=1.0.0",
-    "pokedex-promise-v2": "^3.0.3",
-    "pokemon-images": "^2.0.1"
+    "pokedex-promise-v2": "^3.0.3"
   },
   "devDependencies": {},
   "scripts": {
