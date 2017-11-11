@@ -23,7 +23,7 @@ describe("My Pokedex Tests", () => {
         });
     });
 
-    test("Launches and asks for charizard, then asks for the description  ", (done) => {
+    test("Launches and asks for charizard, then asks for the description  ", () => {
         alexa.launch().then((payload) => {
             expect(payload.response.outputSpeech.ssml).toContain("Ask me which number of pokemon you want to know about");
             return alexa.utter("6");
