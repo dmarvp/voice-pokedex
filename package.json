@@ -17,5 +17,9 @@
     "test": "jest",
     "coverage": "jest && codecov"
   },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
+  },
   "license": "Apache-2.0"
 }
