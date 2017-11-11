@@ -4,5 +4,5 @@
   "interactionModelFile": "speechAssets/interactionModel.json", 
   "invocationName": "My Pokedex",
   "lambdaARN": "arn:aws:lambda:us-east-1:571129214039:function:jovoPokedexFn", 
-  "name": "My Pokedex"
+  "name": "Pokedex"
 }
