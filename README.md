@@ -1,5 +1,5 @@
-[![Travis](https://img.shields.io/travis/dmarvp/pokedex.svg?style=flat-square)]()
-[![Codecov](https://img.shields.io/codecov/c/github/dmarvp/pokedex.svg?style=flat-square)]()
+[![Build Status](https://travis-ci.org/dmarvp/pokedex.svg?branch=master)](https://travis-ci.org/dmarvp/pokedex)
+[![codecov](https://codecov.io/gh/dmarvp/pokedex/branch/master/graph/badge.svg)](https://codecov.io/gh/dmarvp/pokedex)
 
 # A pokedex for Alexa / Google Home created with:
 - Jovo
