@@ -38,22 +38,22 @@ const pikachuAudio = 'https://s3.us-east-2.amazonaws.com/diego-bst-generalbucket
 const handlers = {
 
     'LAUNCH': function () {
-        var welcome = 'Welcome to my pokedex. ' + repromptMessage;
+        const welcome = 'Welcome to my pokedex. ' + repromptMessage;
         app.ask(welcome, repromptMessage);
     },
 
     'PokedexIntent': function (number) {
-        var P = new Pokedex();
+        const P = new Pokedex();
         P.getPokemonByName(number) // with Promise
             .then(function (response) {
                 try {
                     //Save the pokemon number to a session variable
                     app.setSessionAttribute('pokemonNo', number);
                     app.setSessionAttribute('pokemonImg', response.sprites.front_default);
-                    var description = 'The pokemon at ' + number + ' is ' + response.name + '.';
-                    var reprompt = 'Do you want to hear ' + response.name + "'s description?";
+                    const description = 'The pokemon at ' + number + ' is ' + response.name + '.';
+                    const reprompt = 'Do you want to hear ' + response.name + "'s description?";
 
-                    var speech = "";
+                    let speech = "";
                     if (number == 25) {
                         speech = app.speechBuilder()
                             .addText('The pokemon at ' + number + ' is ')
@@ -82,16 +82,16 @@ const handlers = {
     'DescriptionState': {
 
         'YesIntent': function () {
-            var P = new Pokedex();
-            var number = app.getSessionAttribute('pokemonNo');
-            var img = app.getSessionAttribute('pokemonImg');
+            const P = new Pokedex();
+            const number = app.getSessionAttribute('pokemonNo');
+            const img = app.getSessionAttribute('pokemonImg');
 
             P.getPokemonSpeciesByName(number) // with Promise
                 .then(function (response) {
-                    var dexEntry = response.flavor_text_entries.filter(function (entry) {
+                    const dexEntry = response.flavor_text_entries.filter(function (entry) {
                         return (entry.language.name === 'en');
                     });
-                    var description = dexEntry[getRandomInt(0, dexEntry.length - 1)].flavor_text;
+                    const description = dexEntry[getRandomInt(0, dexEntry.length - 1)].flavor_text;
                     app.showImageCard(response.name, description, img).tell(response.name + ': ' + description + '. ' + goodbyeMessage);
                 })
                 .catch(function (error) {

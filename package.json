@@ -1,26 +1,21 @@
 {
-  "name": "jovo-sample-voice-app-nodejs",
+  "name": "pokedex",
   "version": "0.0.1",
   "description": "A sample voice app that works with the Jovo framework",
   "main": "index.js",
+  "author": "dmarvp",
   "dependencies": {
-    "jest": "^21.2.1",
     "jovo-framework": "<=1.0.0",
-    "pokedex-promise-v2": "^3.0.3",
+    "pokedex-promise-v2": "^3.0.3"
+  },
+  "devDependencies": {
+    "codecov": "^3.0.0",
+    "jest": "^21.2.1",
     "virtual-alexa": "^0.3.7"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest && codecov"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jovotech/jovo-sample-voice-app-nodejs.git"
-  },
-  "author": "Jovo",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/jovotech/jovo-sample-voice-app-nodejs/issues"
-  },
-  "homepage": "https://github.com/jovotech/jovo-sample-voice-app-nodejs#readme"
+  "license": "Apache-2.0"
 }
