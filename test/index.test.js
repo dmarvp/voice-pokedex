@@ -6,7 +6,7 @@ const alexa = virtualAlexa.VirtualAlexa.Builder()
 
 describe("My Pokedex Tests", () => {
 
-    test("Launches and asks for voltorb, then cancels  ", (done) => {
+    test("Launches and asks for voltorb, then cancels  ", () => {
         alexa.launch().then((payload) => {
             expect(payload.response.outputSpeech.ssml).toContain("Ask me which number of pokemon you want to know about");
             return alexa.utter("100");
