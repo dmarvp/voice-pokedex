@@ -25,8 +25,8 @@ describe("Voice Pokedex Tests", () => {
             expect(payload.response.outputSpeech.ssml).toContain("voltorb");
             return alexa.utter("no");
         }).then((payload) => {
-            expect(payload.response.outputSpeech.ssml).toContain("Thank you");
-            expect(payload.response.shouldEndSession).toBe(true);
+            expect(payload.response.outputSpeech.ssml).toContain("Would you like to ask for another pokemon");
+            expect(payload.response.shouldEndSession).toBe(false);
             done();
         });
     });
