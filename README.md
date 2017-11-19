@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/dmarvp/pokedex.svg?branch=master)](https://travis-ci.org/dmarvp/pokedex)
-[![codecov](https://codecov.io/gh/dmarvp/pokedex/branch/master/graph/badge.svg)](https://codecov.io/gh/dmarvp/pokedex)
+[![Build Status](https://travis-ci.org/dmarvp/voice-pokedex.svg?branch=master)](https://travis-ci.org/dmarvp/voice-pokedex)
+[![codecov](https://codecov.io/gh/dmarvp/voice-pokedex/branch/master/graph/badge.svg)](https://codecov.io/gh/dmarvp/voice-pokedex)
 
 # A pokedex voice app for Amazon Alexa / Google Assistant 
 
