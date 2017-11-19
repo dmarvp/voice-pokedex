@@ -1,64 +1,69 @@
 {
-  "intents": [
-    {
-      "name": "AMAZON.CancelIntent",
-      "samples": []
-    },
-    {
-      "name": "AMAZON.HelpIntent",
-      "samples": []
-    },
-    {
-      "name": "AMAZON.StopIntent",
-      "samples": []
-    },
-    {
-      "name": "NoIntent",
-      "samples": [
-        "No",
-        "nope",
-        "nah",
-        "I don't think so",
-        "not really",
-        "later",
-        "thanks but no",
-        "I don't want that",
-        "don't do it"
-      ],
-      "slots": []
-    },
-    {
-      "name": "PokedexIntent",
-      "samples": [
-        "what is the pokemon at {number}",
-        "{number}",
-        "give me the pokedex entry for {number}",
-        "what is the Pokemon at number {number}",
-        "give me some info on {number}"
-      ],
-      "slots": [
-        {
-          "name": "number",
-          "type": "AMAZON.NUMBER",
-          "samples": []
-        }
-      ]
-    },
-    {
-      "name": "YesIntent",
-      "samples": [
-        "yes",
-        "sure",
-        "why not",
-        "of course",
-        "alright",
-        "ok",
-        "do it",
-        "okay",
-        "sounds good",
-        "that's correct"
-      ],
-      "slots": []
-    }
-  ]
+  "languageModel": {
+    "intents": [
+      {
+        "name": "AMAZON.CancelIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.HelpIntent",
+        "samples": []
+      },
+      {
+        "name": "AMAZON.StopIntent",
+        "samples": []
+      },
+      {
+        "name": "NoIntent",
+        "samples": [
+          "No",
+          "nope",
+          "nah",
+          "I don't think so",
+          "not really",
+          "later",
+          "thanks but no",
+          "I don't want that",
+          "don't do it"
+        ],
+        "slots": []
+      },
+      {
+        "name": "PokedexIntent",
+        "samples": [
+          "who is the pokemon at {number}",
+          "{number}",
+          "give me the pokedex entry for {number}",
+          "what is the Pokemon at number {number}",
+          "give me some info on {number}",
+          "I want to know about Pokemon number {number}",
+          "look up Pokemon number {number}",
+          "tell me about the Pokemon number {number}"
+        ],
+        "slots": [
+          {
+            "name": "number",
+            "type": "AMAZON.NUMBER"
+          }
+        ]
+      },
+      {
+        "name": "YesIntent",
+        "samples": [
+          "yes",
+          "sure",
+          "why not",
+          "of course",
+          "alright",
+          "ok",
+          "do it",
+          "okay",
+          "sounds good",
+          "that's correct"
+        ],
+        "slots": []
+      }
+    ],
+    "invocationName": "voice pokedex"
+  }
 }
