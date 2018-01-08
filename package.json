@@ -1,17 +1,17 @@
 {
   "name": "pokedex",
   "version": "0.0.1",
-  "description": "A sample voice app that works with the Jovo framework",
+  "description": "A pokedex voice app built with the Jovo Framework",
   "main": "index.js",
   "author": "dmarvp",
   "dependencies": {
     "jovo-framework": "<=1.0.0",
-    "pokedex-promise-v2": "^3.0.3"
+    "pokedex-promise-v2": "3.0.3"
   },
   "devDependencies": {
     "codecov": "^3.0.0",
     "jest": "^21.2.1",
-    "virtual-alexa": "^0.3.7"
+    "virtual-alexa": "^0.3.11"
   },
   "scripts": {
     "test": "jest",

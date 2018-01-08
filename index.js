@@ -8,7 +8,7 @@ const app = require('jovo-framework').Jovo;
 const webhook = require('jovo-framework').Webhook;
 const Pokedex = require('pokedex-promise-v2');
 
-// Listen for post requests (Web hook)
+//Listen for post requests (Web hook)
 // webhook.listen(3000, function () {
 //     console.log('Local development server listening on port 3000.');
 // });
@@ -25,7 +25,6 @@ exports.handler = function (event, context, callback) {
     context.callbackWaitsForEmptyEventLoop = false;
 };
 
-
 // =================================================================================
 // App Logic
 // =================================================================================
@@ -35,7 +34,7 @@ const errorMessage = "There was an error with your request, please try again";
 const goodbyeMessage = "Thank you for using the voice pokedex! Remember to catch them all!";
 const followupQuestion = "¿Would you like to ask for another pokemon?";
 const helpMessage = "Tell me the number of a pokemon you would like to know about." +
-    " Currently, you can ask for pokemons up to the number 802." + 
+    " Currently, you can ask for pokemons up to the number 802." +
     " If I find the pokemon you are looking for, I'll give you the option to hear one of it's pokedex description as well. " + repromptMessage;
 const pikachuAudio = 'https://s3.us-east-2.amazonaws.com/diego-bst-generalbucket/pikachu.mp3';
 
@@ -44,7 +43,6 @@ const handlers = {
         const welcome = 'Welcome to the voice pokedex. ' + repromptMessage;
         app.ask(welcome, repromptMessage);
     },
-
     'PokedexIntent': function (number) {
         const P = new Pokedex();
         P.getPokemonByName(number) // with Promise
@@ -68,11 +66,11 @@ const handlers = {
                     }
                     app.followUpState('DescriptionState').showImageCard(response.name, description, response.sprites.front_default).ask(speech, reprompt);
                 } catch (error) {
-                    console.log(error);
+                    console.error(error);
                 }
             })
             .catch(function (error) {
-                console.log(error);
+                console.error(error);
                 if (error.statusCode && error.statusCode == 404) {
                     app.ask("I couldn't find the pokemon you asked about, please try again", repromptMessage);
                 }
@@ -80,6 +78,9 @@ const handlers = {
                     app.ask(errorMessage, repromptMessage);
                 }
             });
+    },
+    'Unhandled': function () {
+        app.ask(`For now, I can only take pokemon numbers. Please, tell me ${repromptMessage}`, repromptMessage);
     },
     'DescriptionState': {
         'YesIntent': function () {
@@ -96,22 +97,29 @@ const handlers = {
                     app.followUpState('ContinueState').showImageCard(response.name, description, img).ask(`${response.name}: ${description} ${followupQuestion}`);
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.error(error);
                     app.tell(errorMessage);
                 });
         },
         'NoIntent': function () {
             app.followUpState('ContinueState').ask(followupQuestion);
         },
-
+        'Unhandled': function () {
+            const reprompt = 'Please answer with yes or no.';
+            app.ask(reprompt, reprompt);
+        }
     },
     'ContinueState': {
         'YesIntent': function () {
-            app.ask(repromptMessage);
+            app.followUpState(null).ask(repromptMessage);
         },
         'NoIntent': function () {
             app.tell(goodbyeMessage);
         },
+        'Unhandled': function () {
+            const reprompt = 'Please answer with yes or no.';
+            app.ask(reprompt, reprompt);
+        }
     },
     'AMAZON.CancelIntent': function () {
         app.tell(goodbyeMessage);

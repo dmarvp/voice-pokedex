@@ -45,4 +45,19 @@ describe("Voice Pokedex Tests", () => {
             done();
         });
     });
+
+    test("Launches and asks an invalid number", (done) => {
+        alexa.launch().then((payload) => {
+            expect(payload.response.outputSpeech.ssml).toContain("Which number of pokemon would you like to know about");
+            return alexa.utter("who is the pokemon at your house ");
+        }).then((payload) => {
+            expect(payload.response.outputSpeech.ssml).toContain("For now");
+            expect(payload.response.shouldEndSession).toBe(false);
+            return alexa.utter("6");
+        }).then((payload) => {
+            expect(payload.response.outputSpeech.ssml).toContain("charizard");
+            expect(payload.response.shouldEndSession).toBe(false);
+            done();
+        });
+    });
 });
